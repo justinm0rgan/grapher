@@ -25,7 +25,7 @@ with open(csv_file) as f:
 	header_row = next(reader)
 
     # Get dates and precipitation data
-	dates, prcps, tmin, tmax = [],[], [], []
+	dates, prcps, tavg = [],[], []
 
 	for row in reader:
 		parsed_date = parse(row[date_column_number])
@@ -41,22 +41,21 @@ with open(csv_file) as f:
 			if parsed_date != None:
 				dates.append(parsed_date)
 			prcps.append(parsed_precipitation)
-			tmin.append(temperature_low)
-			tmax.append(temperature_high)
+			tavg.append((temperature_low+temperature_high)/2)
 
 # Plot the points for precipitation
 plt.style.use('seaborn')
 fig, ax1 = plt.subplots(figsize=(15,9))
 color = 'tab:red'
 ax1.set_xlabel("Date (s)", fontsize=16)
-ax1.set_ylabel("Precipitation (IN)", fontsize=16)
+ax1.set_ylabel("Precipitation (IN)", color=color, fontsize=16)
 ax1.plot(dates, prcps, color=color)
 
 ax2 = ax1.twinx() # instantiate a second axis that shares the same x-axis
 
 color = 'tab:blue'
 ax2.set_ylabel("Degrees", color=color, fontsize=16)
-ax2.plot(dates, tmin, tmax, color=color)
+ax2.plot(dates, tavg, color=color)
 ax2.tick_params(axis='y', labelcolor=color)
 
 # Format title
@@ -65,7 +64,7 @@ plt.title(title, fontsize=24)
 
 # Format the ticks
 plt.tick_params(axis='both', which='major', labelsize=16)
-# fig.autofmt_xdate()
+fig.autofmt_xdate()
 
 
 plt.savefig('./output/' + output_png_file_name, bbox_inches='tight')
