@@ -49,14 +49,17 @@ fig, ax1 = plt.subplots(figsize=(15,9))
 color = 'tab:red'
 ax1.set_xlabel("Date (s)", fontsize=16)
 ax1.set_ylabel("Precipitation (IN)", color=color, fontsize=16)
-ax1.plot(dates, prcps, color=color)
+ax1.plot(dates, prcps, label="Precipitation",color=color)
 
 ax2 = ax1.twinx() # instantiate a second axis that shares the same x-axis
 
 color = 'tab:blue'
 ax2.set_ylabel("Degrees", color=color, fontsize=16)
-ax2.plot(dates, tavg, color=color)
+ax2.plot(dates, tavg, label="Avg Temp",color=color)
 ax2.tick_params(axis='y', labelcolor=color)
+
+ax1.legend()
+ax2.legend()
 
 # Format title
 title = chart_title
